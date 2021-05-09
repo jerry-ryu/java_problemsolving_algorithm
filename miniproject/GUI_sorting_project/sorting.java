@@ -13,6 +13,8 @@ public class sorting extends JFrame {
 	Container c = getContentPane();
 	JPanel[] panellist = new JPanel[230];
 	int[] numlist = new int[230];
+	JLabel tmplabel;
+	Integer count;
 
 	sorting() {
 
@@ -25,6 +27,17 @@ public class sorting extends JFrame {
 		setMenu();
 		setPanel();
 		Random();
+		JPanel jp = new JPanel();
+		tmplabel = new JLabel("sorting algorithm");
+		tmplabel.setBackground(Color.black);
+		jp.setBounds(10,450,470,75);
+		jp.setBackground(Color.white);
+		jp.add(tmplabel,"Center");
+		
+		c.add(jp);
+		
+		
+		
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
@@ -100,7 +113,11 @@ public class sorting extends JFrame {
 
 					MergeSort(0, panellist.length - 1, tmp);
 				} else if(menu.equals("퀵 정렬")){
-					Quicksort();
+					
+					QuickSort();
+				} else if(menu.equals("힙 정렬")){
+					
+					HeapSort();
 				}
 
 			}
@@ -127,13 +144,22 @@ public class sorting extends JFrame {
 		}
 
 	}
-
+	
 	// 버블정렬
 	private void BubbleSort() {
 
 		try {
 			new Thread() {
 				public void run() {
+					count = 0;
+					long starttime = System.currentTimeMillis();
+					long endtime;
+					long time=0;
+					
+					tmplabel.setText("<html>버블정렬<br>시간복잡도: O(n^2), 안정정렬<br>교환횟수: <html>" + count.toString() 
+					+ "<html><br>걸린시간:<html> " );
+
+					
 					for (int i = panellist.length - 1; i > 0; i--) {
 						// 0 ~ (i-1)까지 반복
 						for (int j = 0; j < i; j++) {
@@ -144,6 +170,9 @@ public class sorting extends JFrame {
 								int tmp = panellist[j].getHeight();
 								panellist[j].setSize(1, panellist[j + 1].getHeight());
 								panellist[j + 1].setSize(1, tmp);
+								count++;
+								tmplabel.setText("<html>버블정렬<br>시간복잡도: O(n^2), 안정정렬<br>교환횟수: <html>" + count.toString() 
+								+ "<html><br>걸린시간:<html> " );
 							}
 							repaint();
 
@@ -159,6 +188,12 @@ public class sorting extends JFrame {
 							repaint();
 						}
 					}
+					
+					endtime = System.currentTimeMillis();
+					time = endtime-starttime;
+					tmplabel.setText("<html>버블정렬<br>시간복잡도: O(n^2), 안정정렬<br>교환횟수: <html>" + count.toString() 
+					+ "<html><br>걸린시간:<html> " + Long.toString(time) );
+					
 					for (int i = 0; i < panellist.length; i++) {
 						panellist[i].setBackground(Color.green);
 						c.add(panellist[i]);
@@ -190,6 +225,16 @@ public class sorting extends JFrame {
 		try {
 			new Thread() {
 				public void run() {
+					
+					count = 0;
+					long starttime = System.currentTimeMillis();
+					long endtime;
+					long time=0;
+					tmplabel.setText("<html>선택정렬<br>시간복잡도: O(n^2), 불안정정렬<br>교환횟수: <html>" + count.toString() 
+					+ "<html><br>걸린시간:<html> " );
+
+					
+					
 					int indexMin;
 					for (int i = 0; i < panellist.length - 1; i++) {
 						indexMin = i;
@@ -216,17 +261,24 @@ public class sorting extends JFrame {
 						int tmp = panellist[i].getHeight();
 						panellist[i].setSize(1, panellist[indexMin].getHeight());
 						panellist[indexMin].setSize(1, tmp);
-
+						
+						count++;
+						tmplabel.setText("<html>선택정렬<br>시간복잡도: O(n^2), 불안정정렬<br>교환횟수: <html>" + count.toString() 
+						+ "<html><br>걸린시간:<html> " );
 						panellist[i].setBackground(Color.white);
 						panellist[indexMin].setBackground(Color.white);
 						repaint();
-						try {
-							Thread.sleep(1);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
 					}
+					
+					
+					endtime = System.currentTimeMillis();
+					time = endtime-starttime;
+					tmplabel.setText("<html>선택정렬<br>시간복잡도: O(n^2), 불안정정렬<br>교환횟수: <html>" + count.toString() 
+					+ "<html><br>걸린시간:<html> " + Long.toString(time) );
+					
+					
+					
+					
 					for (int i = 0; i < panellist.length; i++) {
 						panellist[i].setBackground(Color.green);
 						c.add(panellist[i]);
@@ -258,6 +310,17 @@ public class sorting extends JFrame {
 		try {
 			new Thread() {
 				public void run() {
+					
+					count = 0;
+					long starttime = System.currentTimeMillis();
+					long endtime;
+					long time=0;
+					
+					tmplabel.setText("<html>삽입정렬<br>시간복잡도: avg O(n^2), 안정정렬<br>교환횟수: <html>" + count.toString() 
+					+ "<html><br>걸린시간:<html> " );
+					
+					
+					
 					for (int i = 1; i < panellist.length; i++) {
 						int j = i - 1;
 						int present = i;
@@ -276,12 +339,24 @@ public class sorting extends JFrame {
 							panellist[j].setSize(1, tmp);
 							panellist[present].setBackground(Color.white);
 							panellist[j].setBackground(Color.white);
+							count++;
+							tmplabel.setText("<html>삽입정렬<br>시간복잡도: avg O(n^2), 안정정렬<br>교환횟수: <html>" + count.toString() 
+							+ "<html><br>걸린시간:<html> " );
 							repaint();
 							present = j;
 							j--;
 						}
 						repaint();
 					}
+					
+					endtime = System.currentTimeMillis();
+					time = endtime-starttime;
+					tmplabel.setText("<html>삽입정렬<br>시간복잡도: avg O(n^2), 안정정렬<br>교환횟수: <html>" + count.toString() 
+					+ "<html><br>걸린시간:<html> " + Long.toString(time) );
+					
+					
+					
+					
 					for (int i = 0; i < panellist.length; i++) {
 						panellist[i].setBackground(Color.green);
 						c.add(panellist[i]);
@@ -312,7 +387,24 @@ public class sorting extends JFrame {
 		try {
 			new Thread() {
 				public void run() {
+					
+					count = 0;
+					long starttime = System.currentTimeMillis();
+					long endtime;
+					long time=0;
+					
+					tmplabel.setText("<html>합병정렬<br>시간복잡도: O(nlog_2 n), 안정정렬<br>교환횟수: <html>" + count.toString() 
+					+ "<html><br>걸린시간:<html> " );
+					
+					
 					Merge(start, end, tmp);
+					
+					endtime = System.currentTimeMillis();
+					time = endtime-starttime;
+					tmplabel.setText("<html>합병정렬<br>시간복잡도: O(nlog_2 n), 안정정렬<br>교환횟수: <html>" + count.toString() 
+					+ "<html><br>걸린시간:<html> " + Long.toString(time) );
+					
+					
 					for (int i = 0; i < panellist.length; i++) {
 						panellist[i].setBackground(Color.green);
 						c.add(panellist[i]);
@@ -352,6 +444,10 @@ public class sorting extends JFrame {
 			int idx = p;
 
 			while (p <= mid || q <= end) {
+				count++;
+				tmplabel.setText("<html>합병정렬<br>시간복잡도: O(nlog_2 n), 안정정렬<br>교환횟수: <html>" + count.toString() 
+				+ "<html><br>걸린시간:<html> " );
+				
 				if (q > end || (p <= mid && panellist[p].getHeight() < panellist[q].getHeight())) {
 					tmp[idx++] = panellist[p++].getHeight();
 				} else {
@@ -385,11 +481,25 @@ public class sorting extends JFrame {
 	}
 
 	//퀵정렬-1 (쓰레드 생성 및 정렬 확인)
-	private void Quicksort() {
+	private void QuickSort() {
 		try {
 			new Thread() {
 				public void run() {
+					
+					count = 0;
+					long starttime = System.currentTimeMillis();
+					long endtime;
+					long time=0;
+					tmplabel.setText("<html>퀵정렬<br>시간복잡도: O(nlog_2 n), 불안정정렬<br>교환횟수: <html>" + count.toString() 
+					+ "<html><br>걸린시간:<html> " + Long.toString(time) );
+					
 					quick(0, panellist.length-1);
+					
+					endtime = System.currentTimeMillis();
+					time = endtime-starttime;
+					tmplabel.setText("<html>퀵정렬<br>시간복잡도: O(nlog_2 n), 불안정정렬<br>교환횟수: <html>" + count.toString() 
+					+ "<html><br>걸린시간:<html> " + Long.toString(time) );
+					
 					for (int i = 0; i < panellist.length; i++) {
 						panellist[i].setBackground(Color.green);
 						try {
@@ -444,7 +554,107 @@ public class sorting extends JFrame {
 		return low;
 	}
 
-	//힙정렬
+	//힙정렬-1 (쓰레드 생성 및 정렬 확인)
+	private void HeapSort() {
+		try {
+			new Thread() {
+				public void run() {
+					
+					count = 0;
+					long starttime = System.currentTimeMillis();
+					long endtime;
+					long time=0;
+					tmplabel.setText("<html>힙정렬<br>시간복잡도: avg O(nlog_2), 불안정정렬<br>교환횟수: <html>" + count.toString() 
+					+ "<html><br>걸린시간:<html> " + Long.toString(time) );
+					
+					int size = panellist.length;
+					int parentIdx = getparent(size-1);
+					
+					for(int i = parentIdx; i>=0; i--) {
+						heapify(i,size-1);
+					}
+					
+					for(int i = size-1; i>0; i--) {
+						swap(0,i);
+						heapify(0,i-1);
+					}
+					
+					
+					endtime = System.currentTimeMillis();
+					time = endtime-starttime;
+					tmplabel.setText("<html>힙정렬<br>시간복잡도: avg O(nlog_2), 불안정정렬<br>교환횟수: <html>" + count.toString() 
+					+ "<html><br>걸린시간:<html> " + Long.toString(time) );
+					for (int i = 0; i < panellist.length; i++) {
+						panellist[i].setBackground(Color.green);
+						c.add(panellist[i]);
+						try {
+							Thread.sleep(3);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						repaint();
+					}
+					for (int i = 0; i < panellist.length; i++) {
+						panellist[i].setBackground(Color.white);
+					}
+					repaint();
+				}
+			}.start();
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+
+	}
+	
+	//힙정렬-2 (부모 노드 찾기)
+	private int getparent(int child) {
+		return (child-1)/2;
+	}
+	
+	//힙정렬-3 (숫자 정렬, 최대 힙 만들기)
+	private void heapify(int parentIdx, int lastIdx) {
+		int leftChildIdx = 2 * parentIdx + 1;
+		int rightChildIdx = 2 * parentIdx + 2;
+		int largestIdx = parentIdx;
+		
+		if(leftChildIdx <= lastIdx) {
+			panellist[leftChildIdx].setBackground(Color.red);
+		}
+		if(rightChildIdx <= lastIdx) {
+			panellist[rightChildIdx].setBackground(Color.red);
+		}
+		
+		
+		panellist[parentIdx].setBackground(Color.red);
+		repaint();
+		
+		
+		if(leftChildIdx <= lastIdx && panellist[largestIdx].getHeight() < panellist[leftChildIdx].getHeight()) {
+			largestIdx = leftChildIdx;
+		}
+		
+		if(rightChildIdx <= lastIdx && panellist[largestIdx].getHeight() < panellist[rightChildIdx].getHeight()) {
+			largestIdx = rightChildIdx;
+		}
+		
+		if(leftChildIdx <= lastIdx) {
+			panellist[leftChildIdx].setBackground(Color.white);
+		}
+		if(rightChildIdx <= lastIdx) {
+			panellist[rightChildIdx].setBackground(Color.white);
+		}
+		panellist[parentIdx].setBackground(Color.white);
+		repaint();
+		
+		
+		if(parentIdx != largestIdx) {
+			swap(largestIdx, parentIdx);
+			heapify(largestIdx, lastIdx);
+		}
+	}
 	
 	// 랜덤
 	private void Random() {
@@ -469,6 +679,11 @@ public class sorting extends JFrame {
 		panellist[a].setBackground(Color.red);
 		panellist[b].setBackground(Color.red);
 		repaint();
+		
+		count++;
+		tmplabel.setText("<html><br>시간복잡도: O(n^2), 불안정정렬<br>교환횟수: <html>" + count.toString() 
+		+ "<html><br>걸린시간:<html> " );
+		
 		int tmp = panellist[a].getHeight();
 		panellist[a].setSize(1, panellist[b].getHeight());
 		panellist[b].setSize(1, tmp);
