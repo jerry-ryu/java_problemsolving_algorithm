@@ -81,49 +81,102 @@ public class sort {
 		print(numarr, "선택 배열");
 	}
 
-	//병합정렬-1
-	private void mergesort(int[] numarr) {
-		int[] tmparr = new int[numarr.length]; //임시배열
+	//병합 정렬 (Top-Down 형식, 재귀함수 사용) -1
+	private void TopDown_mergesort(int[] numarr) {
+		int[] tmparr = new int[numarr.length]; //임시배열 생성
 		
-		innermergesort(numarr,0,numarr.length-1, tmparr);
+		TopDown_innermergesort(numarr,0,numarr.length-1, tmparr);
 		
-		print(tmparr, "병합 정렬");
+		print(tmparr, "Top-Down 병합 정렬");
 	}
 	
-	
-	//병합 정렬-2
-	private void innermergesort(int[] numarr, int start, int end, int[] tmparr) {
+	//병합 정렬 (Top-Down 형식, 재귀함수 사용) -2
+	private void TopDown_innermergesort(int[] numarr, int start, int end, int[] tmparr) {
 		
 		
 		
-		if(start >= end) {
+		if(start == end) { //부분 배열의 원소의 개수가 1개인 경우 더 이상 divide가 불가능하므로 return한다
 			return;
 		}
 		
-		int mid = (start+end)/2;
-		innermergesort(numarr,start,mid,tmparr);
-		innermergesort(numarr,mid+1,end,tmparr);
-		int left = start;
-		int right = mid+1;
-		int idx = left;
+		int mid = (start+end)/2; //절반
+		TopDown_innermergesort(numarr,start,mid,tmparr); //절반 중 왼쪽의 부분배열 divide and conquer
+		TopDown_innermergesort(numarr,mid+1,end,tmparr);//절반 중 오른쪽의 부분배열 divide and conquer
 		
-		while(left<=mid || end>=right ) {
-			if( right>end || (left<= mid && numarr[left]<numarr[right]) ){
-				tmparr[idx] = numarr[left];
+		merge(numarr, start, mid, end, tmparr);
+		
+	}
+	
+	//병합 정렬 (Bottom-Up 형식, 재귀함수 사용 x) -1
+	private void BottomUp_mergesort(int[] numarr) {
+		int[] tmparr = new int[numarr.length]; //임시배열 생성
+		
+		BottomUp_innermergesort(numarr, tmparr);
+		
+		print(numarr, "Bottom-Up 병합 정렬");
+		
+	}
+	
+	//병합 정렬 (Bottom-Up 형식, 재귀함수 사용 x) -2
+	private void BottomUp_innermergesort(int[] numarr, int[] tmparr) {
+		
+		for(int size = 1; size<numarr.length; size +=size) {
+			//size = 나눌 배열의 크기, 1,2,4,8...로 증가한다
+			for(int l = 0; l < numarr.length - size; l += (2 * size)) {
+				/*
+				 * 두개의 부분 배열을 합치는 것이다.
+				 * Top-Down 형식에서 인덱스가 start~mid인 부분 배열과 
+				 * 인덱스가 mid+1~end인 두 배열을 합친 것과 같이
+				 * size 변수에 따라, 즉 low~mid 부분배열과 mid+1~high까지인 부분 배열을 병합한다.
+				 * 이때, l + (2 * size) - 1(사이즈에 기반한 다음 부분배열의 크기)가 
+				 * 원래 배열의 최대 인덱스보다 클 수 있으므로,
+				 * Math.min함수를 통해 high 값을 제한해준다.
+				 * l < numarr.length - size;에서 numarr.length - size부분은 
+				 * 배열의 길이가 2의 제곱이 아닐경우에 어쩔 수 없이 생기는
+				 * 하나 남은 배열을 방지해준다.
+				 * 예를 들어, 배열의 길이가 6이고 size가 2라면, 
+				 * for문은 인덱스가 0~1인 부분 배열과 인덱스가 2~3인 부분 배열을 합치고, 
+				 * 4~6부분 배열이 홀로 남는다.
+				 * 이때, numarr.length - size = 4이므로, 변수 ㅣ이 4보다 크거나 같아지지 않아서 
+				 * 4~6배열이 merge함수에 들어가는 일을방지해준다.   
+				 */
+				int low = l;
+				int mid = l + size - 1;
+				int high = Math.min(l + (2 * size) - 1, numarr.length-1);
+				merge(numarr, low, mid, high, tmparr);		// 병합(merging)작업
+			}
+		}
+		
+	}
+	
+	//병합정렬 병합(merging)함수(Top-Down ,Bottom-Up 형식 둘 다 사용 )
+	private void merge(int[] numarr, int start, int mid, int end, int[] tmparr) {
+		
+		int left = start; //왼쪽 절반의 시작 지점
+		int right = mid+1; //오른쪽 절반의 시작 지점
+		int idx = left; //tmparr의 idx
+		
+		while(left<=mid || end>=right ) { //왼쪽이나 오른쪽에 원소가 남아있다면
+			if( right>end || (left<= mid && numarr[left]<numarr[right]) ){ 
+				// 오른쪽 원소를 다 사용했거나, (왼쪽 원소가 남아있고 왼쪽 원소가 더 작은 경우)
+				tmparr[idx] = numarr[left]; //왼쪽 원소를 tmparr에 넣는다
 				idx++;
-				left++;
+				left++; //사용한 원소는 비교대상에서 제외
 			}else {
-				tmparr[idx] = numarr[right];
+				tmparr[idx] = numarr[right];//오른쪽 원소를 tmparr에 넣는다
 				idx++;
-				right++;
+				right++;//사용한 원소는 비교대상에서 제외
 			}
 		}	
 		
-		for (int i = start; i <= end; i++) {
+		for (int i = start; i <= end; i++) { //정렬된 부분 배열을 기존의 배열에 복사하여 붙여준다
 			numarr[i] = tmparr[i];
 		}
+		/*이 과정이 없다면, 부분배열을 정렬한 것이 원 배열에 반영되지 않아, 
+		 * 합병하여 정렬하는 것이 반영이 되지 않는다
+		 * 즉, 부분 배열을 정렬해놓고, 정렬 안되어있는 배열을 사용하는 셈이다
+		 */
 	}
-	
 	
 	// swap
 	private void swap(int[] numarr, int i, int j) {
@@ -144,7 +197,7 @@ public class sort {
 
 		sort Sort = new sort();
 
-		Sort.mergesort(numarr);
+		Sort.BottomUp_mergesort(numarr);
 
 	}
 }
