@@ -1,6 +1,7 @@
 package SortAlgorithm;
 
 import java.util.Arrays;
+import java.util.PriorityQueue;
 
 public class sort {
 
@@ -178,6 +179,30 @@ public class sort {
 		 */
 	}
 	
+	//힙 정렬(priority queue사용)
+	private void priorityQueue_heapsort(int[] numarr) {
+		PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
+		for(int i = 0; i<numarr.length; i++) {
+			priorityQueue.add(numarr[i]); //priority queue에 각 원소 넣기
+		}
+		
+		int i = 0;
+		while(!priorityQueue.isEmpty()) {
+			numarr[i] = priorityQueue.poll();
+			//우선순위 순서대로(숫자가 작은 순서대로) 원소 반환
+			//원래의 배열에 복사
+			i++;
+		}
+		
+		print(numarr, "우선순위 큐를 사용한 힙 정렬");
+	}
+
+	//힙 정렬(heap을 구현하여 사용)
+	private void implementing_heap_heapsort(int numarr) {
+		
+	}
+	
+	
 	// swap
 	private void swap(int[] numarr, int i, int j) {
 		int temp = numarr[i];
@@ -197,7 +222,7 @@ public class sort {
 
 		sort Sort = new sort();
 
-		Sort.BottomUp_mergesort(numarr);
+		Sort.priorityQueue_heapsort(numarr);
 
 	}
 }
