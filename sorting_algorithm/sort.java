@@ -198,7 +198,22 @@ public class sort {
 	}
 
 	//힙 정렬(heap을 구현하여 사용)
-	private void implementing_heap_heapsort(int numarr) {
+	private void implementing_heap_heapsort(int[] numarr) {
+		heap Heap = new heap();
+		for(int i = 0; i<numarr.length; i++) {
+			Heap.add(numarr[i]); //priority queue에 각 원소 넣기
+		}
+		
+		int i = 0;
+		while(!Heap.isEmpty()) {
+			numarr[i] = Heap.delete();
+			//숫자가 작은 순서대로 원소 반환
+			//원래의 배열에 복사
+			i++;
+		}
+		print(numarr, "구현된 heap을 사용한 힙 정렬");
+		
+		
 		
 	}
 	
@@ -222,7 +237,7 @@ public class sort {
 
 		sort Sort = new sort();
 
-		Sort.priorityQueue_heapsort(numarr);
+		Sort.implementing_heap_heapsort(numarr);
 
 	}
 }
