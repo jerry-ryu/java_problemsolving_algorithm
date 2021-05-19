@@ -1,6 +1,7 @@
 package SortAlgorithm;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.PriorityQueue;
 
 public class sort {
@@ -214,6 +215,63 @@ public class sort {
 		print(numarr, "구현된 heap을 사용한 힙 정렬");
 		
 		
+		
+	}
+	
+	//제자리 힙 정렬(in-place heap sort) -1
+	private void in_place_heapsort(int[] numarr) {
+		
+	}
+	
+	//제자리 힙 정렬(in-place heap sort) -2 (부모 idx, 자식 idx 찾기)
+	private int in_place_heapsort_find(int type, int idx, int ref_point) {
+		// type 0: 부모찾기, type 1: 왼쪽 자식 찾기, type 3: 오른쪽 자식찾기
+		switch (idx) {
+        case 0:
+        	if(idx==0){ //루트 노드의 부모는 없음
+    			return -1;
+    		}
+    		
+    		// 부모 노드 = (자식 노드+1) /2 -1
+    		return (idx+1)/2 -1;
+    		
+        case 1: 
+    		//왼쪽 자식 =  (부모+1)* 2 -1
+    		if((idx+1)*2 -1> ref_point) {
+    			return -1; //자식이 없으면 -1 반환
+    		}else {
+    			return (idx+1)*2 -1;
+    		}
+        case 2:  
+    		//오른쪽 자식 =  (부모+1)* 2
+    		if((idx+1)*2 > ref_point) {
+    			return -1; //자식이 없으면 -1 반환
+    		}else {
+    			return (idx+1)*2;
+    		}
+		}
+		return -1;
+		
+	}
+	
+	//제자리 힙 정렬(in-place heap sort) -3 (배열 안에서 정의된 heap에 원소 넣기)	
+	private void in_place_heapsort_add(int ref_point, int[] numarr ) {
+		
+		int me =ref_point;
+		int parents = this.in_place_heapsort_find(0,me,ref_point);
+		
+		//heap 다시 정렬
+		//부모가 없을 때까지 반복	
+		while(parents != -1 ) {		
+			if(numarr[me]<numarr[parents]) { //부모보다 내가 작으면 부모와 나를 바꿈
+				swap(numarr, me, parents);
+			}else {
+				break;
+			}
+			
+			me = parents;
+			parents = this.in_place_heapsort_find(0,me,ref_point);
+		}
 		
 	}
 	
