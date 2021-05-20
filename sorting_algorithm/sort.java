@@ -220,13 +220,21 @@ public class sort {
 	
 	//제자리 힙 정렬(in-place heap sort) -1
 	private void in_place_heapsort(int[] numarr) {
+		for(int i = 1; i<numarr.length-1; i++) {
+			in_place_heapsort_add(i,numarr);
+		}
 		
+		for(int i = numarr.length-1; i>0 ; i--) {
+			in_place_heapsort_delete(i,numarr);
+		}
+		
+		print(numarr, "제자리 힙 정렬");
 	}
 	
 	//제자리 힙 정렬(in-place heap sort) -2 (부모 idx, 자식 idx 찾기)
 	private int in_place_heapsort_find(int type, int idx, int ref_point) {
 		// type 0: 부모찾기, type 1: 왼쪽 자식 찾기, type 3: 오른쪽 자식찾기
-		switch (idx) {
+		switch (type) {
         case 0:
         	if(idx==0){ //루트 노드의 부모는 없음
     			return -1;
@@ -235,16 +243,22 @@ public class sort {
     		// 부모 노드 = (자식 노드+1) /2 -1
     		return (idx+1)/2 -1;
     		
+    		/*
+    		 * ref_point는 배열 안에서 정의된 heap의 마지막 idx +1
+    		 * 그러므로 leftchild나 rightchild가 ref_point와 같거나 크면 heap의 범위를 넘어갔다고 생각해야함
+    		 */
+    		
+    		
         case 1: 
     		//왼쪽 자식 =  (부모+1)* 2 -1
-    		if((idx+1)*2 -1> ref_point) {
+    		if((idx+1)*2 -1>= ref_point) {
     			return -1; //자식이 없으면 -1 반환
     		}else {
     			return (idx+1)*2 -1;
     		}
         case 2:  
     		//오른쪽 자식 =  (부모+1)* 2
-    		if((idx+1)*2 > ref_point) {
+    		if((idx+1)*2 >= ref_point) {
     			return -1; //자식이 없으면 -1 반환
     		}else {
     			return (idx+1)*2;
@@ -263,7 +277,7 @@ public class sort {
 		//heap 다시 정렬
 		//부모가 없을 때까지 반복	
 		while(parents != -1 ) {		
-			if(numarr[me]<numarr[parents]) { //부모보다 내가 작으면 부모와 나를 바꿈
+			if(numarr[me]>numarr[parents]) { //부모보다 내가 작으면 부모와 나를 바꿈
 				swap(numarr, me, parents);
 			}else {
 				break;
@@ -275,6 +289,38 @@ public class sort {
 		
 	}
 	
+	//제자리 힙 정렬(in-place heap sort) -4 (배열 안에서 정의된 heap에서 원소 빼기)	
+	private void in_place_heapsort_delete(int ref_point, int[] numarr ) {
+		
+		swap(numarr, ref_point, 0);
+		
+		int me  = 0;
+		int leftchild = this.in_place_heapsort_find(1,me,ref_point);
+		int rightchild = this.in_place_heapsort_find(2,me,ref_point);
+		
+		while(leftchild != -1) {
+			// rightchild가 있고, 내가 자식보다 크고, rightchild가 자식들 중에 가장 작은 값일 경우에만 
+			// rightchild와 me 교환
+			if(rightchild != -1 && numarr[me] <numarr[rightchild] 
+					&& numarr[leftchild]  < numarr[rightchild]){
+				swap(numarr, me, rightchild);
+				me = rightchild;
+			}
+			// 내가 자식보다 크고, leftchild가 자식들중에 가장 작은 값인 경우에만
+			// leftchild와 me 교환
+			else if(numarr[me] <numarr[leftchild]) {
+				
+				swap(numarr, me, leftchild);
+				me = leftchild;
+			}else {
+				break;
+			}
+			
+			leftchild = this.in_place_heapsort_find(1,me,ref_point);
+			rightchild = this.in_place_heapsort_find(2,me,ref_point);
+			
+		}
+	}
 	
 	// swap
 	private void swap(int[] numarr, int i, int j) {
@@ -295,7 +341,7 @@ public class sort {
 
 		sort Sort = new sort();
 
-		Sort.implementing_heap_heapsort(numarr);
+		Sort.in_place_heapsort(numarr);
 
 	}
 }
