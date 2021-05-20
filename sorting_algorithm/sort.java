@@ -322,6 +322,24 @@ public class sort {
 		}
 	}
 	
+	//계수 정렬
+	private void countingsort(int[] numarr) {
+		final int max_num = 6;
+		int[] counting  = new int[max_num+1];
+		int[] output = new int[numarr.length];
+		for(int i = 0; i<numarr.length; i++) {
+			counting[numarr[i]]++;
+		}
+		for(int i = 1; i<counting.length; i++) {
+			counting[i] = counting[i] + counting[i -1];
+		}
+		for(int i = 0; i<numarr.length; i++) {
+			output[--counting[numarr[i]]] = numarr[i];
+		}
+		
+		print(output, "계수 정렬");
+	}
+	
 	// swap
 	private void swap(int[] numarr, int i, int j) {
 		int temp = numarr[i];
@@ -341,7 +359,7 @@ public class sort {
 
 		sort Sort = new sort();
 
-		Sort.in_place_heapsort(numarr);
+		Sort.countingsort(numarr);
 
 	}
 }
