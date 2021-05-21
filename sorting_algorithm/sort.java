@@ -323,18 +323,30 @@ public class sort {
 	}
 	
 	//계수 정렬
-	private void countingsort(int[] numarr) {
-		final int max_num = 6;
-		int[] counting  = new int[max_num+1];
+	private void countingsort(int[] numarr, int max, int min) {
+		// 카운팅 배열 길이 = 원소들의 최댓값 - 원소들의 최소값 + 1
+		final int counting_length = max - min +1; 
+		int[] counting  = new int[counting_length];
+		//출력 배열의 길이 = 입력 배열의 길이
 		int[] output = new int[numarr.length];
+		
+		//카운팅 배열에 원소들의 출현 횟수 누적
 		for(int i = 0; i<numarr.length; i++) {
-			counting[numarr[i]]++;
+			counting[numarr[i]-min]++;
 		}
+		//직전 요소들의 값 더해줌
 		for(int i = 1; i<counting.length; i++) {
 			counting[i] = counting[i] + counting[i -1];
 		}
-		for(int i = 0; i<numarr.length; i++) {
-			output[--counting[numarr[i]]] = numarr[i];
+		//입력 배열의 역순으로 요소들을 출력배열에 채워 넣어준다
+		for(int i = numarr.length-1; i>=0; i--) {
+			/*
+			 * counting 배열에서 1번 출현한 원소는 1로 표현되므로,
+			 * output배열의 index로 사용할때 --연산자를 통해 미리 -1을 해준다.
+			 * numarr[i]-min을 통해 counting 배열의 index 0에 있는 값이
+			 * 원래 배열 최솟값의 출현횟수가 되도록 조정한다
+			 */
+			output[--counting[numarr[i]-min]] = numarr[i];
 		}
 		
 		print(output, "계수 정렬");
@@ -354,12 +366,12 @@ public class sort {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int[] numarr = { 5, 6, 3, 1, 4, 2 }; // 정렬할 배열
+		int[] numarr = { -1 ,5, 6, 3, 1, 4, 2 }; // 정렬할 배열
 		System.out.println("원래 배열:" + Arrays.toString(numarr));
 
 		sort Sort = new sort();
 
-		Sort.countingsort(numarr);
+		Sort.countingsort(numarr,6,-1);
 
 	}
 }
