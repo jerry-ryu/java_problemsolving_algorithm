@@ -2,7 +2,10 @@ package SortAlgorithm;
 
 import java.util.Arrays;
 import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.LinkedList;
 import java.util.Stack;
+import java.lang.Math;
 
 public class sort {
 
@@ -80,7 +83,7 @@ public class sort {
 			swap(numarr, i, min);
 		}
 
-		print(numarr, "선택 배열");
+		print(numarr, "선택 정렬");
 	}
 
 	// 병합 정렬 (Top-Down 형식, 재귀함수 사용) -1
@@ -452,6 +455,80 @@ public class sort {
 		print(numarr, "비재귀적 퀵 정렬");
 		
 	}
+	
+	//셸 정렬-1
+	private void shellsort(int[] numarr) {
+		
+		//gap이 홀수 일때 효율적이라고 알려져있다.
+		int gap = numarr.length / 2;
+		if(gap != 0 && gap % 2 ==0 ) {
+			gap++;
+		}
+		
+		while(gap>= 1) { //gap이 1일때가 마지막 회차
+			for(int i=0; i<gap; i++) {
+				//gap만큼 idx가 차이나는 원소끼리 선택정렬
+				//ex. gap이 3이면, 0,3,6,9.... 원소끼리 선택정렬한다
+				innershellsort(numarr, gap, i);
+			}
+			
+			gap = gap / 2;
+			if(gap != 0 && gap % 2 ==0 ) {
+				gap++;
+			}
+			
+		}
+		
+		print(numarr, "셸 정렬");
+		
+	}
+	
+	//셸 정렬(셸 정렬 내부에서 사용하는 선택정렬 구현) -2 
+	private void innershellsort(int[] numarr, int gap, int start) {
+		for(int i = start; i< numarr.length -1; i=i+gap) {
+			int min = i;
+			for(int j = i+gap; j<numarr.length; j=j+gap) {
+				// 최솟값을 가진 인덱스 찾기
+				if (numarr[j] < numarr[min]) {
+					min = j;
+				}
+			}
+			// i 번째 값과 최솟값을 교환
+			swap(numarr, i, min);
+		}
+	}
+	
+	//기수 정렬
+	private void radixsort(int[] numarr, int data_length) {
+		
+		//0~9번의 Queue 생성
+		Queue<Integer>[] queues= new Queue[10]; 
+		for(int i = 0; i<queues.length; i++) {
+			queues[i] = new LinkedList<>();
+		}
+		
+		//데이터의 길이만큼 반복
+		while(data_length != 0) {
+			for(int i = 0; i<numarr.length; i++) {
+				//자릿수에 해당하는 수 구하기
+				int digit = (numarr[i]%(int)Math.pow(10,data_length))/(int)Math.pow(10,data_length-1); 
+				//자릿수에 해당하는 수를 기준으로 알맞은 번호의 queue에 넣기
+				queues[digit].add( numarr[i]); 
+			}
+			int i, p;
+			//0번  Queue 부터 원소 꺼내기
+			for(i = 0, p =0; i<numarr.length; i++) {
+				while(!queues[i].isEmpty()) {
+					numarr[p++] =queues[i].poll();
+				}
+			}
+			data_length--;
+		}
+		
+		print(numarr, "기수 정렬");
+		
+	}
+	
 	// swap
 	private void swap(int[] numarr, int i, int j) {
 		int temp = numarr[i];
@@ -466,12 +543,12 @@ public class sort {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int[] numarr = { 5, 1, 3, 4, 2, 6 }; // 정렬할 배열
+		int[] numarr = { -1, 5, 1, 3, 4, 2, 6 }; // 정렬할 배열
 		System.out.println("원래 배열:" + Arrays.toString(numarr));
 
 		sort Sort = new sort();
 
-		Sort.stack_quicksort(numarr);
+		Sort.radixsort(numarr,1);
 
 	}
 }
