@@ -543,12 +543,53 @@ public class sort {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int[] numarr = { -1, 5, 1, 3, 4, 2, 6 }; // 정렬할 배열
+		int[] numarr = { 5, 1, 3, 4, 2, 6 }; // 정렬할 배열
 		System.out.println("원래 배열:" + Arrays.toString(numarr));
 
+		System.out.println("");
+		
 		sort Sort = new sort();
 
-		Sort.radixsort(numarr,1);
+		Sort.bubblesort(numarr);
+		System.out.println("");
+		
+		Sort.imporvedbubblesort(numarr);
+		System.out.println("");
 
+		Sort.insertionsort(numarr);
+		System.out.println("");
+		
+		Sort.selectionsort(numarr);
+		System.out.println("");
+		
+		Sort.TopDown_mergesort(numarr);
+		System.out.println("");
+		
+		Sort.BottomUp_mergesort(numarr);
+		System.out.println("");
+		
+		Sort.priorityQueue_heapsort(numarr);
+		System.out.println("");
+		
+		Sort.implementing_heap_heapsort(numarr);
+		System.out.println("");
+		
+		Sort.in_place_heapsort(numarr);
+		System.out.println("");
+		
+		Sort.countingsort(numarr,6,1);
+		System.out.println("");
+		
+		Sort.recursive_quicksort(numarr);
+		System.out.println("");
+		
+		Sort.stack_quicksort(numarr);
+		System.out.println("");
+		
+		Sort.shellsort(numarr);
+		System.out.println("");
+		
+		Sort.radixsort(numarr,1);
+		System.out.println("");
 	}
 }
