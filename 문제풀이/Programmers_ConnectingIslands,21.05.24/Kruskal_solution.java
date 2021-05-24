@@ -1,4 +1,4 @@
-package Programmers_ConnectingIslands;
+package Programmers.ConnectingIslands;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;
@@ -67,7 +67,7 @@ public class Kruskal_solution {
 	  public static void main(String[] args) {
 	    	
 	    	int[][] costs = {{0,2,1},{1,2,2},{2,3,2},{0,4,2},{2,4,2}} ;
-	    	MySolution sol = new MySolution();
+	    	Kruskal_solution sol = new Kruskal_solution();
 	    	System.out.println(sol.solution(5,costs));
 	    	
 	    }

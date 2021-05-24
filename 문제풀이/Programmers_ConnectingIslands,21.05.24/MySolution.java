@@ -1,4 +1,4 @@
-package Programmers_ConnectingIslands;
+package Programmers.ConnectingIslands;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;
