@@ -1,4 +1,4 @@
-package ProgrammersBj.MakeItOne;
+package ProgrammersBj.Bj_MakeItOne;
 
 public class Bj_MakeItOne {
 	
