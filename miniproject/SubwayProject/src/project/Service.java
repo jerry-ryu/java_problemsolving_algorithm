@@ -17,6 +17,19 @@ public class Service implements ServiceImpl{
     }
     
     public void findWays(String stationA, String stationB){
+        StationData startS = stationList.get(stationA);
+        if(startS == null){
+            System.out.println(stationA + "이(가) 없습니다");
+            return;
+        }
+        StationData endS = stationList.get(stationB);
+        if(endS == null){
+            System.out.println(stationB + "이(가) 없습니다");
+            return;
+        }
+        
+        dijkstra D = new dijkstra();
+        D.findway(startS, endS);
         clearAll();
     }
     
@@ -48,11 +61,14 @@ public class Service implements ServiceImpl{
             p++;
         }
         
+        System.out.println();
+        System.out.println();
+        
         clearAll();
     }
     
     StationData findLineStation(StationData s, String line){
-        HashMap<StationData, String[]> map = s.getConncetedStation();
+        HashMap<StationData, String[]> map = s.getConnectedStation();
         for(StationData tmps : map.keySet()){
             if(map.get(tmps)[0].equals(line) && tmps.isVisited() == false){
                 return tmps;

@@ -17,8 +17,7 @@ class StationData extends SearchableForm{
     }
     
     @Override
-    void visit(StationData pre, int cost){
-        this.visit();
+    void set(StationData pre, int cost){
         this.pre = pre;
         this.cost = pre.howCost() +
             Integer.parseInt(this.connectedStation.get(pre)[1]);
@@ -39,7 +38,7 @@ class StationData extends SearchableForm{
         return false;
     }
     
-    HashMap<StationData, String[]> getConncetedStation(){
+    HashMap<StationData, String[]> getConnectedStation(){
         return this.connectedStation;
     }
     
